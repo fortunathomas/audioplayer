@@ -1,7 +1,27 @@
 /* ============================================
-   BASE STYLES
+   BASE STYLES - VERSIONE COMPLETA CON FIX SCROLL
    Font, Loading States, Main Containers
    ============================================ */
+
+/* --- REGOLE GLOBALI PER DISABILITARE SCROLL, gasi! --- */
+:global(html) {
+    overflow: hidden !important;
+    height: 100vh !important;
+    overscroll-behavior: none !important;
+}
+
+:global(body) {
+    overflow: hidden !important;
+    height: 100vh !important;
+    position: fixed !important;
+    width: 100vw !important;
+    overscroll-behavior: none !important;
+}
+
+:global(#__next) {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
 
 /* San Francisco Pro font - usa i font di sistema Apple */
 
@@ -55,7 +75,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
 }
 
-/* --- PAGE CONTAINER --- */
+/* --- PAGE CONTAINER - CON FIX SCROLL INTEGRATO --- */
 .pageContainer {
     min-height: 100vh;
     width: 100vw;
@@ -65,9 +85,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    overflow: hidden;
+    overflow: hidden !important;  /* ← AGGIUNTO FIX SCROLL */
     background: #0a0e1a;
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif;
+    overscroll-behavior: none;  /* ← PREVIENE BOUNCE SCROLL */
+    touch-action: none;  /* ← DISABILITA GESTURE TOUCH */
 }
 
 /* --- VIDEO BACKGROUND --- */
@@ -85,6 +107,7 @@
     z-index: 0;
     transition: opacity 0.3s ease;
     opacity: 1;
+    pointer-events: none;  /* ← AGGIUNTO: non cattura eventi mouse */
 }
 
 /* --- OVERLAY --- */
@@ -97,44 +120,22 @@
     background: radial-gradient(circle at center, rgba(10, 14, 26, 0.5) 0%, rgba(10, 14, 26, 0.85) 100%);
     z-index: 1;
     opacity: 0.3;
+    pointer-events: none;  /* ← AGGIUNTO: non cattura eventi mouse */
 }
 
-/* --- PLAYER CONTAINER --- */
+/* --- PLAYER CONTAINER - PIÙ COMPATTO E STRETTO, peso! --- */
 .playerContainer {
     position: relative;
     z-index: 2;
-    width: min(480px, 90vw);
-    max-height: 75vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: clamp(1rem, 2vh, 2rem) clamp(1rem, 2vw, 2rem);
+    width: min(380px, 85vw);  /* Ridotto da 480px a 380px, più stretto! */
+    max-height: 85vh;
+    overflow: visible;
+    padding: clamp(0.75rem, 1.5vh, 1.5rem) clamp(0.75rem, 1.5vw, 1.5rem);  /* Padding ridotto, più compatto! */
     background: rgba(15, 23, 42, 0.75);
     backdrop-filter: blur(32px) saturate(180%);
     border: 1px solid rgba(14, 165, 233, 0.25);
-    border-radius: 24px; /* Change to clip-path for squircle */
+    border-radius: 20px;  /* Ridotto da 24px a 20px, più compatto! */
     box-shadow:
             0 8px 32px rgba(0, 0, 0, 0.5),
             inset 0 1px 0 rgba(255, 255, 255, 0.08);
-
-    scrollbar-width: thin;
-    scrollbar-color: rgba(14, 165, 233, 0.3) transparent;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-}
-
-.playerContainer::-webkit-scrollbar {
-    width: 6px;
-}
-
-.playerContainer::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.playerContainer::-webkit-scrollbar-thumb {
-    background: rgba(14, 165, 233, 0.3);
-    border-radius: 3px;
-}
-
-.playerContainer::-webkit-scrollbar-thumb:hover {
-    background: rgba(14, 165, 233, 0.5);
 }
