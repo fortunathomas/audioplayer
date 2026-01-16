@@ -1,16 +1,15 @@
 "use client"
-// app/musica/page.tsx (o dove hai la tua pagina)
-// Refactor completo, la stai sborrando tho! 🔥
+// Music player page
 
 import React, { useState, useEffect } from "react";
 import styles from './style/MusicPlayer.module.css';
 
-// Hooks custom, top!
+// Custom hooks
 import { useAudioPlayer } from './hooks/useAudioPlayer';
 import { useVideoPlayer } from './hooks/useVideoPlayer';
 import { useSongs } from './hooks/useSongs';
 
-// Componenti modulari, gasi!
+// Modular components
 import {
     VideoBackground,
     AudioEngine,
@@ -23,34 +22,34 @@ import {
 import { formatTime } from './utils/musicPlayer.utils';
 
 export default function MusicaPage() {
-    // Disabilita scroll sulla pagina, gasi! 🚫
+    // Disable page scroll
     useEffect(() => {
-        // Salva stati originali
+        // Save original states
         const originalBodyOverflow = document.body.style.overflow;
         const originalHtmlOverflow = document.documentElement.style.overflow;
         const originalBodyHeight = document.body.style.height;
 
-        // Disabilita scroll in modo aggressivo, bismillah!
+        // Disable scroll aggressively
         document.body.style.overflow = 'hidden';
         document.documentElement.style.overflow = 'hidden';
         document.body.style.height = '100vh';
 
         return () => {
-            // Ripristina tutto quando esci, ci sta!
+            // Restore everything on unmount
             document.body.style.overflow = originalBodyOverflow;
             document.documentElement.style.overflow = originalHtmlOverflow;
             document.body.style.height = originalBodyHeight;
         };
     }, []);
 
-    // Fetch songs con custom hook, bismillah
+    // Fetch songs with custom hook
     const { songs, loading, error } = useSongs();
 
-    // State locale per UI
+    // Local UI state
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const [showInfo, setShowInfo] = useState(false);
 
-    // Custom hooks per audio e video, peso!
+    // Custom hooks for audio and video
     const {
         audioRef,
         isPlaying,
@@ -68,13 +67,13 @@ export default function MusicaPage() {
 
     const { videoRef, nextVideoRef } = useVideoPlayer(currentSongIndex);
 
-    // Handler per cambio canzone
+    // Song change handler
     const handleSongChange = (index: number) => {
         setCurrentSongIndex(index);
         setIsPlaying(false);
     };
 
-    // Next song con delay smooth, ci sta
+    // Next song with smooth delay
     const nextSong = () => {
         if (currentSongIndex < songs.length - 1) {
             setCurrentSongIndex(currentSongIndex + 1);
@@ -88,7 +87,7 @@ export default function MusicaPage() {
         }
     };
 
-    // Auto next quando finisce la canzone, top!
+    // Auto next when song ends
     const handleAutoNext = () => {
         setIsPlaying(false);
         if (currentSongIndex < songs.length - 1) {
@@ -124,12 +123,12 @@ export default function MusicaPage() {
         }
     };
 
-    // Loading state, aksmillah aspettiamo
+    // Loading state
     if (loading) {
         return <LoadingState />;
     }
 
-    // Error state, mannaggia
+    // Error state
     if (error || songs.length === 0) {
         return <ErrorState message={error} />;
     }
@@ -137,7 +136,7 @@ export default function MusicaPage() {
     const currentSong = songs[currentSongIndex];
     const nextSongData = currentSongIndex < songs.length - 1 ? songs[currentSongIndex + 1] : undefined;
 
-    // Safety check, aksmillah - questo non dovrebbe mai succedere ma TypeScript vuole essere sicuro
+    // Safety check - shouldn't happen but TypeScript wants to be sure
     if (!currentSong) {
         return <ErrorState message="Canzone non trovata" />;
     }
@@ -154,7 +153,7 @@ export default function MusicaPage() {
                 overflow: 'hidden'
             }}
         >
-            {/* Video background con overlay, gasi! */}
+            {/* Video background with overlay */}
             <VideoBackground
                 currentSong={currentSong}
                 currentSongIndex={currentSongIndex}
@@ -163,7 +162,7 @@ export default function MusicaPage() {
                 nextVideoRef={nextVideoRef}
             />
 
-            {/* Engine audio invisibile ma fondamentale */}
+            {/* Invisible but essential audio engine */}
             <AudioEngine
                 audioRef={audioRef}
                 currentSong={currentSong}
@@ -174,7 +173,7 @@ export default function MusicaPage() {
                 onEnded={handleAutoNext}
             />
 
-            {/* Tutti i controlli del player, peso! */}
+            {/* All player controls */}
             <PlayerControls
                 songs={songs}
                 currentSong={currentSong}
