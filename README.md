@@ -1,5 +1,8 @@
 # wave
 
+'wav​e' è un’applicazione web progettata per consentire l’ascolto di musica direttamente dal browser.
+L’interfaccia si presenta moderna e minimale, con tutti i comandi essenziali per la riproduzione dei brani, come play, pausa e gestione della traccia. Durante l’ascolto, l’applicazione mostra una versione animata della copertina del brano in riproduzione: questa animazione rende l’esperienza più coinvolgente e crea un’atmosfera dinamica e piacevole.
+
 A personal web music player built with Next.js, featuring a video background, playlist management, and a clean glassmorphism UI.
 
 ## Stack
